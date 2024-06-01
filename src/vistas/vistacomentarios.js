@@ -1,4 +1,3 @@
-import { comentariosBd } from "./comentariosbd"
 import { comentarios } from "../components/comentarios"
 
 export const vistaComentarios = {
@@ -19,11 +18,12 @@ export const vistaComentarios = {
           <button class="btn btn-success ms-auto">Añadir comentario</button>
         </div>
       </form>
-
-     
-          ${comentarios(comentariosBd)}
       
     
   </main>
-    `
+    `,
+    script:()=>{
+
+      comentarios.script()
+    }
 }
