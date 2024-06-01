@@ -7,12 +7,11 @@ export const header ={
       <div class="container-fluid">
         <a class="navbar-brand">Gestión de incidencias FPLLEFIA</a>
         <div class="quitarPagina">
-          <button class="btn btn-secondary ms-2 panelButton">PANEL</button>
           <button class="btn btn-secondary ms-2 loginButton">LOGIN</button>
           <button class="btn btn-secondary ms-2 registreButton">REGISTRO</button>
         </div>
         <div>
-          <span>administrador@fpllefia.com</span>
+          <span id="email">administrador@fpllefia.com</span>
           
         </div>
       </div>
@@ -21,10 +20,22 @@ export const header ={
     `,
 
     script:()=>{
-      document.querySelector('.panelButton').addEventListener('click',()=>{
-          document.querySelector('main').innerHTML=panel.template
-          vistaPanel.script()
-      })
+      let usuarios = localStorage.getItem("usuarios")
+
+      if(usuarios){
+        usuarios = JSON.parse(usuarios)
+        for(let i=0;i<usuarios.length;i++){
+          if(usuarios[i].log == 1){
+            document.querySelector('main').innerHTML= panel.template
+            document.querySelector('#email').innerHTML= usuarios[i].mail
+            panel.script()
+          }
+      }
+      }else{
+        usuarios = []
+        localStorage.setItem("usuarios", JSON.stringify(usuarios))
+      }
+
       document.querySelector('.loginButton').addEventListener('click',()=>{
         document.querySelector('main').innerHTML=login.template
         login.script()

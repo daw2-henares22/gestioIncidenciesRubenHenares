@@ -13,7 +13,6 @@ import { vistaComentarios } from './vistas/vistacomentarios'
 
 document.querySelector('header').innerHTML = header.template
 header.script()
-document.querySelector('main').innerHTML = vistaComentarios.template
 
 
 // document.querySelector('.loginButton').addEventListener('click', function(){
