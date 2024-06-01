@@ -1,4 +1,4 @@
-export const ticketsPendientesDb = [
+export const ticketsBd = [
     {
       codigo: 'T006',
       fecha: '2024-02-28',
@@ -7,7 +7,7 @@ export const ticketsPendientesDb = [
       ordenador: 'PC006',
       descripcion: 'Problema con la impresora',
       alumno: 'Laura Sánchez',
-      estado: 'Pendiente'
+      estado: 0
     },
     {
       codigo: 'T007',
@@ -17,7 +17,7 @@ export const ticketsPendientesDb = [
       ordenador: 'PC007',
       descripcion: 'Problema con el sistema operativo',
       alumno: 'Javier Fernández',
-      estado: 'Resuelto'
+      estado: 1
     },
     {
       codigo: 'T008',
@@ -27,7 +27,7 @@ export const ticketsPendientesDb = [
       ordenador: 'PC008',
       descripcion: 'No funciona el teclado de la computadora',
       alumno: 'Isabel Gómez',
-      estado: 'Resuelto'
+      estado: 1
     },
     {
       codigo: 'T009',
@@ -37,7 +37,7 @@ export const ticketsPendientesDb = [
       ordenador: 'PC009',
       descripcion: 'Problema con el monitor',
       alumno: 'Miguel Pérez',
-      estado: 'Pendiente'
+      estado: 0
     },
     {
       codigo: 'T010',
@@ -47,7 +47,7 @@ export const ticketsPendientesDb = [
       ordenador: 'PC010',
       descripcion: 'No se puede conectar a la red',
       alumno: 'Carmen Martínez',
-      estado: 'Resuelto'
+      estado: 1
     }
   ];
   
