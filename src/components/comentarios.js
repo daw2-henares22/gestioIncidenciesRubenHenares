@@ -2,12 +2,17 @@ import { comentario } from "./comentario";
 import { comentariosBd } from "../vistas/comentariosbd";
 
 export const comentarios = {
+    template:`
+    <div id="comentariosText"
+    </div>
+    `,
+
     script: () =>{
         let html=``
-        comentariosBd.forEach(element =>{
-            html +=comentario(element.usuario,element.fecha,element.comentario)
+        comentariosBd.forEach(item =>{
+            html +=comentario(item.autor,item.fecha,item.comentario)
         })
-        document.querySelector("#comentarios").innerHTML = html
+        document.querySelector("#comentariosText").innerHTML = html
     }
 
     // let template = ``

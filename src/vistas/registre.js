@@ -1,89 +1,71 @@
-import { login } from "./login"
+import { login } from "./login";
+import { usuariosRegistrados } from "./comentariosbd";
 
 export const registre = {
-  template:`
+  template: `
 <main class="container mt-5">
   <div class="pt-5">
     <h1 class="w-100 text-center">Registro</h1>
     <form action="" class="form p-4 border shadow bordered mt-5 mx-auto" style="width: 400px;">
-      <label for="email" class="mt-2 form-label">User: </label>
-      <input id="email" type="text" class="form-control" placeholder="usuario@mail.com">
+      <label for="email" class="mt-2 form-label">Email: </label>
+      <input id="emailRegistro" type="text" class="form-control" placeholder="usuario@mail.com">
 
-      <label for="pass" class="mt-2 form-label">Contraseña: </label>
-      <input id="contraseña" type="password" class="form-control">
+      <label for="contraseña" class="mt-2 form-label">Contraseña: </label>
+      <input id="passwordRegistro" type="password" class="form-control">
 
-      <input type="text" class="mt-4 w-100 btn btn-primary" value="Entrar" id="enviar">
-      <button id="buttonRegistro" type="" class="btn btn-primary w-100">Enviar</button>
+      <button id="btnEntrarRegistro" type="submit" class="btn btn-primary w-100 mt-4">Enviar</button>
     </form>
   </div>
 </main>
-
-
-
-// <!-- Modal -->
-// <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-// <div class="modal-dialog">
-//   <div class="modal-content">
-//     <div class="modal-header">
-//       <h5 class="modal-title" id="exampleModalLabel">Observaciones</h5>
-//       <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-//     </div>
-//     <div class="modal-body">
-//       <p>Código incidencia: <span>123546</span></p>
-//       <label for="comentario" class="form-label">Comentario:</label> 
-//       <input class="form-control">Estee es un comentario sobre esta incidencia</input>
-//       <p class="small text-end">Autor: <span>Pepe Loco</span></p>
-//     </div>
-//     <div class="modal-footer">
-
-//       <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-//       <button type="button" class="btn btn-primary">Guardar cambios</button>
-//     </div>
-//   </div>
-// </div>
-// </div>
-// </div>
   `,
+  script: () => {
+    document.querySelector('#btnPanel').style.display = 'none';
+    document.querySelector('#btnComentarios').style.display = 'none';
 
-  script:()=>{
-    document.querySelector('#buttonRegistro').addEventListener('click', (event) => {
-  
-      event.preventDefault
-      let usuarios = localStorage.getItem("usuarios")
+    document.querySelector('#btnEntrarRegistro').addEventListener('click', (event) => {
+      event.preventDefault()
 
-      if (usuarios) {
-        usuarios = JSON.parse(usuarios)
-      } else {
-        usuarios = []
-      }
+      const email = document.querySelector('#emailRegistro').value
+      const contraseña = document.querySelector('#passwordRegistro').value
 
-      let email = document.querySelector("#email").value
-      let contraseña = document.querySelector("#contraseña").value
-
-      const usuario = {
-        mail: email,
-        contr: contraseña
-      }
-
-      if(usuarios.length ==0){
-        usuarios.push(usuario)
-        localStorage.setItem("usarios", JSON.stringify(usuarios))
-        document.querySelector('main').innerHTML= login.template
-        login.script()
-      }else{
-        usuarios.forEach(element =>{
-          if(element.mail != email){
-            usuarios.push(usuario)
-            localStorage.setItem("usuarios", JSON.stringify(usuarios))
-            document.querySelector('main').innerHTML=login.template
-            login.script()
-
-          }else{
-            alert('Pusiste un dato incorrecto')
-          }
+      if(email === '' || contraseña === ''){//revisar si tiene un dato o no
+        Swal.fire({
+          icon: 'error',
+          title: 'Rellene todos los campos!!'
         })
-
+        return;
       }
-    })
+      if(usuariosRegistrados.find(usuario => usuario.email === email)){
+        Swal.fire({
+          icon: 'error',
+          title: 'El usuario ya está registrado'
+        })
+        return
+      }
+      const nuevoUsuario = {email, contraseña}
+      usuariosRegistrados.push(nuevoUsuario)
+
+
+      const usuariosGuardados = JSON.stringify(usuariosRegistrados)
+
+      localStorage.setItem('usuarios', usuariosGuardados)
+
+      Swal.fire({
+        icon: 'success',
+        title: 'Usuario registrado',
+        text: '¡Gracias por registrarte!',
+      }).then(()=>{ //una vez lo hemos guardado en el localStorage, hará lo siguiente
+        // Recoger los valores de la cadena del localStorage y mostrarlos en la consola
+        const nuevoUsuariosGuardados = localStorage.getItem('usuarios')
+        console.log(nuevoUsuariosGuardados);
+
+        const parseado = JSON.parse(nuevoUsuariosGuardados); // Recuperar la cadena de strings y lo convierte en un objeto
+        console.log(parseado);
+
+        document.querySelector('main').innerHTML=login.template //cargo el login template
+        login.script()  //tmbn cargo su funcionabilidad
+            
+      })
+      })
   }
-}
+};

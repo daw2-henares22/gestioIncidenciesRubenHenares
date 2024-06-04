@@ -1,4 +1,5 @@
-import { ticketsBd } from "./ticketsbd"
+import { tickets } from "./ticketsbd"
+import { vistaComentarios } from "./vistacomentarios";
 
 export const panel = {
   template:`
@@ -20,7 +21,7 @@ export const panel = {
         <th></th>
       </tr>
     </thead>
-    <tbody id="pendent">
+    <tbody id="ticketsPendientes">
       
     </tbody>
   </table>
@@ -38,68 +39,20 @@ export const panel = {
         <th>Alumno</th>
       </tr>
     </thead>
-    <tbody id="resolt">
+    <tbody id="ticketsResueltos">
      
     </tbody>
   </table>
 </main>
-
-
-
-<!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-<div class="modal-dialog">
-  <div class="modal-content">
-    <div class="modal-header">
-      <h5 class="modal-title" id="exampleModalLabel">Observaciones</h5>
-      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-    </div>
-    <div class="modal-body">
-      <p>Código incidencia: <span>123546</span></p>
-      <label for="comentario" class="form-label">Comentario:</label> 
-      <input class="form-control">Estee es un comentario sobre esta incidencia</input>
-      <p class="small text-end">Autor: <span>Pepe Loco</span></p>
-    </div>
-    <div class="modal-footer">
-
-      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-      <button type="button" class="btn btn-primary">Guardar cambios</button>
-    </div>
-  </div>
-</div>
-</div>
-</div>
   `,
 
-  script:()=>{
-    ticketsBd.forEach(item => {
-      if(item.estado==0){
-        tablaPendent=`
-        <tr class="ticket">
-              <td>${item.codigo}</td>
-              <td>${item.fecha}</td>
-              <td>${item.aula}</td>
-              <td>${item.grupo}</td>
-              <td>${item.ordenador}</td>
-              <td>${item.descripcion}</td>
-              <td>${item.alumno}</td>
-              </td>
-              <td><button id="btnResolver" class="btn btn-success" title="Resolver ticket">Resolver</button></td>
-              <td><button id="btnEdit" class="btn btn-warning" title="Añadir comentario"><i class="bi  bi-pencil" data-bs-toggle="modal" data-bs-target="#exampleModal"></i>
-              </button>
-              </td>
-              <td><button id="btnComment" class="btn btn-info" title="Ver comentarios"><i class="bi bi-chat-left-text"></i>
-              </button></td>
-              <td><button id="btnEliminar" class="btn btn-danger" title="Eliminar ticket"><i class="bi bi-trash3"></i>
-              </i>
-              </button></td>
-            </tr>`
+  pintarTickets:()=>{
 
-        document.querySelector("#pendent").innerHTML +=tablaPendent
-
-      }else{
-        tablaResolt=`
-        <tr class="ticket">
+    let html1 = ''; // tickets resueltos
+    let html2 = ''; // pendientes
+    tickets.forEach(item => {
+      if(item.estado==='Resuelto'){
+        const ticketHTMLResueltos=`
                 <td>${item.codigo}</td>
                 <td>${item.fecha}</td>
                 <td>${item.fecharesuelto}</td>
@@ -113,12 +66,61 @@ export const panel = {
                 <td><button id="btnEliminar" class="btn btn-danger" title="Eliminar ticket"><i class="bi bi-trash3"></i>
                 </i>
                 </button></td>
-              </tr>
         `
-        document.querySelector("#tablaResolt").innerHTML += tablaResolt
+
+        html1 += `<tr>${ticketHTMLResueltos}</tr>`
+
+      }else{
+        const ticketHTMLPendientes=`
+              <td>${item.codigo}</td>
+              <td>${item.fecha}</td>
+              <td>${item.aula}</td>
+              <td>${item.grupo}</td>
+              <td>${item.ordenador}</td>
+              <td>${item.descripcion}</td>
+              <td>${item.alumno}</td>
+              </td>
+              <td><button id="Resolver" type="button" class="btn btn-success" title="Resolver ticket">Resolver</button></td>
+              <td><button id="btnEditar" type="button" class="btn btn-warning" title="Añadir comentario"><i class="bi  bi-pencil" data-bs-toggle="modal" data-bs-target="#exampleModal"></i>
+              </button>
+              </td>
+              <td><button type="button" class="btn btn-info btnComentarPendientes" title="Ver comentarios"><i class="bi bi-chat-left-text"></i>
+              </button></td>
+              <td><button type="button" class="btn btn-danger btnEliminarPendientes" title="Eliminar ticket"><i class="bi bi-trash3"></i>
+              </i>
+              </button></td>`
+            html2 += `<tr>${ticketHTMLPendientes}</tr>`
       }
 
     })
+
+    document.querySelector('#ticketsResueltos').innerHTML = html1;
+    document.querySelector('#ticketsPendientes').innerHTML = html2;
+  
+     // Agregar evento a los botones de comentar resueltos
+  const btnComentarResueltos = document.querySelectorAll('.btnComentarResueltos');
+  btnComentarResueltos.forEach(btn => {
+    btn.addEventListener('click', () => {
+      console.log('Dandole al botón para ver los comentarios de los tickets resueltos');
+      document.querySelector('main').innerHTML = vistaComentarios.template;
+      vistaComentarios.script();
+    });
+  });
+
+  // Agregar evento a los botones de comentar pendientes
+  const btnComentarPendientes = document.querySelectorAll('.btnComentarPendientes');
+  btnComentarPendientes.forEach(btn => {
+    btn.addEventListener('click', () => {
+      console.log('Dandole al botón para ver los comentarios de los tickets pendientes');
+      document.querySelector('main').innerHTML = vistaComentarios.template;
+      vistaComentarios.script();
+    });
+  });
+  
+  
+  
+  
+  
   }
 
 }

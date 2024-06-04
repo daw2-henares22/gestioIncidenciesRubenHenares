@@ -1,5 +1,6 @@
-export const ticketsBd = [
+export const tickets = [
     {
+      id:1,
       codigo: 'T006',
       fecha: '2024-02-28',
       aula: 'Aula 201',
@@ -10,6 +11,7 @@ export const ticketsBd = [
       estado: 0
     },
     {
+      id:2,
       codigo: 'T007',
       fecha: '2024-02-29',
       aula: 'Aula 202',
@@ -20,6 +22,7 @@ export const ticketsBd = [
       estado: 1
     },
     {
+      id:3,
       codigo: 'T008',
       fecha: '2024-03-01',
       aula: 'Aula 203',
@@ -30,6 +33,7 @@ export const ticketsBd = [
       estado: 1
     },
     {
+      id:4,
       codigo: 'T009',
       fecha: '2024-03-02',
       aula: 'Aula 204',
@@ -40,6 +44,7 @@ export const ticketsBd = [
       estado: 0
     },
     {
+      id:5,
       codigo: 'T010',
       fecha: '2024-03-03',
       aula: 'Aula 205',
